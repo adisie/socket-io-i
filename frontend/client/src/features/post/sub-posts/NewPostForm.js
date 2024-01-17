@@ -1,11 +1,32 @@
-import { useState } from "react"
+
+import { useState,useEffect } from "react"
+import {useSelector,useDispatch} from 'react-redux'
+import {io} from 'socket.io-client'
+
+import {addNewMessage} from '../postSlice'
+
 import { BsSendFill } from "react-icons/bs"
 
 const NewPostForm = () => {
 
   // states
   const [text,setText] = useState('')
+  const [socket,setSocket] = useState(null)
 
+  // hooks
+  const dispatch = useDispatch()
+
+  // effects
+  useEffect(()=>{
+    setSocket(io('ws://localhost:5000'))
+  },[])
+
+  useEffect(()=>{
+    socket?.emit('addUser',socket?.id)
+  })
+
+
+  
   // adjust height
   const adjustHeight = e => {
     let textarea = document.getElementById('post-text-area')
@@ -18,8 +39,14 @@ const NewPostForm = () => {
   const submitHandler = () => {
     let textarea = document.getElementById('post-text-area')
     if(text.trim()){
-      console.log(text)
+      socket?.emit('newMessage',text)
+
+      socket?.on('getNewMessage',text=>{
+        dispatch(addNewMessage(text))
+        // console.log(text)
+      })
     }
+
     setText('')
     textarea.style.height = '24px'
     textarea.focus()

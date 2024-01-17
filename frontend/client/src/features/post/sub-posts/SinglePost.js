@@ -1,12 +1,12 @@
 import { FiUser } from "react-icons/fi"
 import { MdDelete } from "react-icons/md"
 
-const SinglePost = () => {
+const SinglePost = ({message}) => {
   return (
     <div className="text-xs text-gray-900 font-serif mb-3 py-1 border-b border-black border-opacity-[.1]">
         <div className="ml-5">
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde accusantium ipsam, repellendus, odit nisi ducimus, fugit omnis deleniti voluptatibus consectetur quos repudiandae ut! Vero aspernatur repudiandae dicta asperiores mollitia! Magnam, vero repellendus quaerat quae ipsum pariatur, voluptatibus dolorem quo impedit quisquam repudiandae perspiciatis voluptatum recusandae officia maxime nostrum beatae eum.
+                {message}
             </p>
         </div>
         {/* ///////////////// */}
