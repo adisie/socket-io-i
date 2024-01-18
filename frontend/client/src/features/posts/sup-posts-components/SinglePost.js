@@ -5,7 +5,11 @@ import { MdAccountCircle } from "react-icons/md"
 // delete
 import { AiFillDelete } from "react-icons/ai"
 
-const SinglePost = () => {
+// sub - components
+import GetUsername from "./GetUsername"
+
+// main funstion
+const SinglePost = ({post}) => {
   return (
     <div className="text-emerald-950 text-xs font-serif my-3 border-b border-emerald-950 border-opacity-[.13] mb-7">
         <div className="ml-5">
@@ -16,7 +20,9 @@ const SinglePost = () => {
         <div className="flex items-center py-1">
             <div className="flex items-center mr-3">
                 <MdAccountCircle className="text-2xl "/>
-                <span>Haddis</span>
+                <span>
+                    <GetUsername userId={post.authorId}/>
+                </span>
             </div>
             <div>
                 <button className="text-xl opacity-[.3] mx-3">

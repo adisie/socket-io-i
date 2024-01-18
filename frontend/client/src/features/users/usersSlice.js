@@ -71,17 +71,12 @@ const usersSlice = createSlice({
             state.isLogin = action.payload
         },
         addNewSignupUser: (state,action) => {
-            // state.allUsers = [action.payload,...state.allUsers]
-            // state.allUsers.forEach(user=>{
-            //     console.log(user.username)
-            // })
             let users = state.allUsers 
             if(!(users.some(user=>user._id === action.payload._id))){
                 state.allUsers = [action.payload,...users]
             }
         },
         setAllOnlineUsers: (state,action) => {
-            console.log(action.payload)
             state.allOnlineUsers = action.payload
         }
     },

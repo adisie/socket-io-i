@@ -81,3 +81,5 @@ io.on('connection',socket=>{
 // routes
 // users route
 app.use('/api/users',require('./routes/usersRoutes'))
+// posts route
+app.use('/api/posts/',require('./routes/postsRoutes'))

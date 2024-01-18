@@ -7,7 +7,12 @@ import {io} from 'socket.io-client'
 import {
   checkAuth,
   getAllUsers,
+  setAllOnlineUsers,
 } from './features/users/usersSlice'
+// posts
+import {
+  getAllPosts,
+} from './features/posts/postSlice'
 
 // components
 // header
@@ -26,6 +31,10 @@ const App = () => {
   useEffect(()=>{
     dispatch(getAllUsers())
   })
+  // get all posts
+  useEffect(()=>{
+    dispatch(getAllPosts())
+  })
   // auth  check
   useEffect(()=>{
     dispatch(checkAuth())
@@ -33,7 +42,7 @@ const App = () => {
 
   useEffect(()=>{
     socket.on('onlineUsers',data=>{
-      console.log(data)
+      dispatch(setAllOnlineUsers(data))
     })
   })
 
