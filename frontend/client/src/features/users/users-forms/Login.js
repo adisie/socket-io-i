@@ -1,10 +1,12 @@
 import {useState} from 'react'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
 // actions from slices
 // users
 import {
   setIsLogin,
+  selectErrors,
+  login,
 } from '../usersSlice'
 
 
@@ -15,6 +17,9 @@ const Login = () => {
   const [username,setUsername] = useState('')
   // password 
   const [password,setPassword] = useState('')
+  // states from slices
+  // users slices
+  const errors = useSelector(selectErrors)
 
   // hooks
   const dispatch = useDispatch()
@@ -23,14 +28,14 @@ const Login = () => {
   const submitHandler = () => {
     let passwordError = document.getElementById('login-password-error')
     if(username.trim() && password) {
-      console.log({username,password})
+      dispatch(login({username,password}))
       passwordError.textContent = ''
     }else {
       console.log('field required')
       passwordError.textContent = 'fill all fields'
     }
-    setUsername('')
-    setPassword('')
+    // setUsername('')
+    // setPassword('')
   }
 
   return (
@@ -49,7 +54,7 @@ const Login = () => {
                 onChange={e=>setUsername(e.target.value)}
               />
             </div>
-            <div className='italic text-red-700 text-center text-[.7rem]'></div>
+            <div className='italic text-red-700 text-center text-[.7rem]'>{errors && errors.username ? errors.username : ''}</div>
           </div>
           {/* password */}
           <div className='mb-2'>
@@ -60,7 +65,7 @@ const Login = () => {
                 onChange={e=>setPassword(e.target.value)}
               />
             </div>
-            <div className='italic text-red-700 text-center text-[.7rem]' id="login-password-error"></div>
+            <div className='italic text-red-700 text-center text-[.7rem]' id="login-password-error">{errors && errors.password ? errors.password : ''}</div>
           </div>
           <div className='flex items-center'>
             <div className='flex-grow text-center text-gray-200 bg-emerald-700 rounded-sm cursor-pointer py-[.25rem] mb-2 transition-all ease-in-out duration-500 hover:bg-emerald-600' 

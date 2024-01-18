@@ -9,6 +9,8 @@ import {
 // users slice
 import {
     setIsLogin,
+    selectUser,
+    logout,
 } from '../features/users/usersSlice'
 
 // icons
@@ -23,6 +25,8 @@ const Header = () => {
     // states from slices
     // home slice
     const mainDir = useSelector(selectMainDir)
+    // users slice
+    const user = useSelector(selectUser)
 
     // hooks
     const dispatch = useDispatch()
@@ -72,14 +76,18 @@ const Header = () => {
             </div>
             {/* controllers */}
             {
-                !true 
+                user 
                 ?
                 <div className="flex items-center">
                     <div className="flex items-center cursor-pointer">
-                        <span>Haddis</span>
-                        <MdAccountCircle className="text-2xl"/>
+                        <span>{user?.username}</span>
+                        <MdAccountCircle className="text-2xl ml-1"/>
                     </div>
-                    <button className="text-gray-400 bg-emerald-800 px-5 rounded-sm py-[.175rem] ml-2 transition-all ease-in-out duration-300 hover:bg-emerald-700">Logout</button>
+                    <button className="text-gray-200 bg-emerald-700 px-5 rounded-sm py-[.175rem] ml-2 transition-all ease-in-out duration-300 hover:bg-emerald-700" 
+                        onClick={()=>{
+                            dispatch(logout())
+                        }}
+                    >Logout</button>
                 </div>
                 :
                 <div className="flex items-center">
