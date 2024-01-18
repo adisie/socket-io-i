@@ -27,6 +27,7 @@ const App = () => {
   useEffect(()=>{
     dispatch(checkAuth())
   })
+
   return (
     <div className="w-screen h-screen flex flex-col">
       <Header />

@@ -31,6 +31,21 @@ mongoose.connect(process.env.MONGO_URI)
         process.exit(-1)
     })
 
+const io = socketio(server,{
+    cors: {
+        origin: ['http://localhost:3000',]
+    }
+})
+
+
+
+// connection
+io.on('connection',socket=>{
+    socket.on('newUserSignup',data=>{
+        io.emit('newUserSignup',data)
+    })
+})
+
 // routes
 // users route
 app.use('/api/users',require('./routes/usersRoutes'))

@@ -1,5 +1,8 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
+import {io} from 'socket.io-client'
+
+let socket = io('ws://localhost:5000')
 
 // local user
 const localUser = JSON.parse(localStorage.getItem('user'))
@@ -85,6 +88,7 @@ const usersSlice = createSlice({
                     state.allUsers = [action.payload.user,...state.allUsers]
                     state.errors = null 
                     localStorage.setItem('user',JSON.stringify(action.payload.user))
+                    socket.emit('newUserSignup',action.payload.user)
                 }
                 if(action.payload.errors){
                     state.errors = action.payload.errors 
