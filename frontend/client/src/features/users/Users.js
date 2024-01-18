@@ -18,7 +18,7 @@ const Users = () => {
   const isLogin = useSelector(selectIsLogin)
 
   return (
-    <div>
+    <div className='flex-grow flex justify-center'>
       {
         isLogin 
         ?

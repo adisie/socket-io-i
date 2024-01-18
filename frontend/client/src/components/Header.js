@@ -83,12 +83,12 @@ const Header = () => {
                 </div>
                 :
                 <div className="flex items-center">
-                    <button className="text-gray-400 bg-emerald-800 px-5 rounded-sm py-[.175rem] ml-2 transition-all ease-in-out duration-300 hover:bg-emerald-700" 
+                    <button className="text-gray-200 bg-emerald-700 px-5 rounded-sm py-[.175rem] ml-2 transition-all ease-in-out duration-300 hover:bg-emerald-700" 
                         onClick={()=>{
                             setMainDirHandler('AUTH-LOGIN')
                         }}
                     >Login</button>
-                    <button className="text-gray-400 bg-emerald-800 px-5 rounded-sm py-[.175rem] ml-2 transition-all ease-in-out duration-300 hover:bg-emerald-700" 
+                    <button className="text-gray-200 bg-emerald-700 px-5 rounded-sm py-[.175rem] ml-2 transition-all ease-in-out duration-300 hover:bg-emerald-700" 
                         onClick={()=>{
                             setMainDirHandler('AUTH-SIGNUP')
                         }}
