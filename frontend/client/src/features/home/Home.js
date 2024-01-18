@@ -1,5 +1,5 @@
 import {useState,useEffect } from 'react'
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 import {io} from 'socket.io-client'
 
 // actions from slices
@@ -10,6 +10,8 @@ import {
 // users
 import {
   selectAllUsers,
+  setAllOnlineUsers,
+  addNewSignupUser,
 } from '../users/usersSlice'
 
 // sub-pages and components
@@ -26,16 +28,24 @@ const Home = () => {
   // states from slices
   // home slice
   const mainDir = useSelector(selectMainDir)
-  // users slice
-  const allUsers = useSelector(selectAllUsers)
+  // hooks
+  const dispatch = useDispatch()
+
    // effects
   // socket
   useEffect(()=>{
     setSocket(io('ws://localhost:5000'))
   },[])
 
+  useEffect(()=>{
+    socket?.on('onlineUsers',data=>{
+      dispatch(setAllOnlineUsers(data))
+    })
+  })
+
+
   socket?.on('newUserSignup',data=>{
-    console.log(data)
+    dispatch(addNewSignupUser(data))
   })
 
   return (

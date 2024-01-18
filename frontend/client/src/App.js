@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import {useDispatch} from 'react-redux'
+import {io} from 'socket.io-client'
 
 // actions from slices
 // users
@@ -15,6 +16,8 @@ import Header from "./components/Header"
 // home
 import Home from "./features/home/Home"
 
+let socket = io('ws://localhost:5000')
+
 const App = () => {
   // hooks
   const dispatch = useDispatch()
@@ -26,6 +29,12 @@ const App = () => {
   // auth  check
   useEffect(()=>{
     dispatch(checkAuth())
+  })
+
+  useEffect(()=>{
+    socket.on('onlineUsers',data=>{
+      console.log(data)
+    })
   })
 
   return (

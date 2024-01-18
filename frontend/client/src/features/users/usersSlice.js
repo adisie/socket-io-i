@@ -10,6 +10,7 @@ const localUser = JSON.parse(localStorage.getItem('user'))
 const initialState = {
     isLogin: true,
     allUsers: [],
+    allOnlineUsers: [],
     user: localUser ? localUser : null,
     errors: null,
 }
@@ -68,6 +69,20 @@ const usersSlice = createSlice({
     reducers: {
         setIsLogin: (state,action) => {
             state.isLogin = action.payload
+        },
+        addNewSignupUser: (state,action) => {
+            // state.allUsers = [action.payload,...state.allUsers]
+            // state.allUsers.forEach(user=>{
+            //     console.log(user.username)
+            // })
+            let users = state.allUsers 
+            if(!(users.some(user=>user._id === action.payload._id))){
+                state.allUsers = [action.payload,...users]
+            }
+        },
+        setAllOnlineUsers: (state,action) => {
+            console.log(action.payload)
+            state.allOnlineUsers = action.payload
         }
     },
     extraReducers: builder => {
@@ -103,6 +118,7 @@ const usersSlice = createSlice({
                     state.user = action.payload.user 
                     state.errors = null 
                     localStorage.setItem('user',JSON.stringify(action.payload.user))
+                    socket.emit('addMeToOnline',{userId: action.payload.user._id,socketId: socket.id})
                 }
                 if(action.payload.errors){
                     state.user = null 
@@ -114,6 +130,7 @@ const usersSlice = createSlice({
             // fulfilled 
             .addCase(logout.fulfilled,(state,action)=>{
                 if(action.payload?.message === 'logged out'){
+                    socket.emit('removeUser',state.user?._id)
                     state.user = null 
                     state.errors = null
                     localStorage.removeItem('user')
@@ -134,6 +151,8 @@ const usersSlice = createSlice({
 // actions
 export const {
     setIsLogin,
+    addNewSignupUser,
+    setAllOnlineUsers,
 } = usersSlice.actions
 
 // selectors
@@ -145,5 +164,7 @@ export const selectUser = state => state.users.user
 export const selectErrors = state => state.users.errors 
 // all users selector
 export const selectAllUsers = state => state.users.allUsers 
+// all online users selector
+export const selectAllOnlineUsers = state => state.users.allOnlineUsers
 
 export default usersSlice.reducer
