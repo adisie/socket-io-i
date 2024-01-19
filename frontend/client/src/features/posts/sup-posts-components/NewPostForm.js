@@ -1,4 +1,12 @@
 import { useState } from "react"
+import {useDispatch} from 'react-redux'
+
+// actions from slices
+// posts slice
+import {
+    addNewPost,
+} from '../postSlice'
+
 // icons
 // send icon
 import { RiSendPlaneLine } from "react-icons/ri"
@@ -8,6 +16,9 @@ const NewPostForm = () => {
     // local states
     // text
     const [text,setText] = useState('')
+
+    // hooks
+    const dispatch = useDispatch()
 
     // adjust text area height
     const adjustTextAreaHeight = e => {
@@ -21,7 +32,7 @@ const NewPostForm = () => {
         e.preventDefault()
         let textarea = document.getElementById('post-text-area')
         if(text.trim()){
-            console.log({text})
+            dispatch(addNewPost({text}))
         }
         setText('')
         textarea.style.height = '24px'

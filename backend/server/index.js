@@ -71,6 +71,10 @@ io.on('connection',socket=>{
     })
     io.emit('onlineUsers',onlineUsers)
     
+    // new post 
+    socket.on('addNewPost',data=>{
+        io.emit('addNewPost',data)
+    })
     // disconnection
     socket.on('disconnect',()=>{
         removeUserSocketId(socket.id)
