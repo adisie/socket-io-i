@@ -10,7 +10,7 @@ const getAllPosts = async (req,res) => {
             authorId: 1,
             text: 1,
             createdAt: 1
-        })
+        }).sort({createdAt: -1})
         res.status(200).json({
             posts,
         })

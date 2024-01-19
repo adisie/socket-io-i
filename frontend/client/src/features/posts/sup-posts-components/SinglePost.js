@@ -1,4 +1,5 @@
 import {useDispatch,useSelector} from 'react-redux'
+import {formatDistanceToNow} from 'date-fns'
 
 // actions from slices
 // users
@@ -31,7 +32,7 @@ const SinglePost = ({post}) => {
     <div className="text-emerald-950 text-xs font-serif my-3 border-b border-emerald-950 border-opacity-[.13] mb-7">
         <div className="ml-5">
             <p className="text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga voluptates quibusdam blanditiis sunt minus excepturi quisquam. Doloribus a quod error saepe, quo vero esse similique. Quaerat dolore tempora sequi, esse nisi, fugit reiciendis deleniti dignissimos sed maxime eos vitae recusandae ab mollitia animi odit hic! Nobis nostrum quidem non omnis.
+                {post.text}
             </p>
         </div>
         <div className="flex items-center py-1">
@@ -55,7 +56,7 @@ const SinglePost = ({post}) => {
                     :
                     <></>
                 }
-                <span className="italic">date: 12-07-2016</span>
+                <span className="italic">{formatDistanceToNow(new Date(post.createdAt),{addSuffix: true})}</span>
             </div>
         </div>
     </div>
