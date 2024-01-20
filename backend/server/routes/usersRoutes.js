@@ -7,8 +7,13 @@ const {
     login,
     logout,
     checkAuth,
-    getAllAuthors,
+    getAllUsers,
 } = require('../controllers/usersControllers')
+// middlewares
+// private route
+const {
+    privateRoute,
+} = require('../middlewares/privateRoutes')
 
 const router = Router()
 
@@ -19,12 +24,12 @@ router.post('/signup',signup)
 router.post('/login',login)
 
 // logout
-router.get('/logout',login)
+router.get('/logout',logout)
 
 // check-auth
-router.get('/check-auth',checkAuth)
+router.get('/check-auth',privateRoute,checkAuth)
 
 // get - all users
-router.get('/get-all-authors',getAllAuthors)
+router.get('/get-all-users',getAllUsers)
 
 module.exports = router
