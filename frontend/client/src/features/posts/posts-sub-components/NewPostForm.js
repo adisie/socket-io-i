@@ -4,6 +4,9 @@ import { useState } from "react"
 // send
 import { RiSendPlaneLine } from "react-icons/ri"
 
+// spinner
+import PostsSpinner from "./PostsSpinner"
+
 // main
 const NewPostForm = () => {
 
@@ -28,6 +31,10 @@ const NewPostForm = () => {
         textarea.style.height = '24px'
         textarea.focus()
         setText('')
+    }
+
+    if(true){
+        return <PostsSpinner />
     }
   return (
     <div className="flex items-center">
