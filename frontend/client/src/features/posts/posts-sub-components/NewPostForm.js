@@ -1,4 +1,12 @@
 import { useState } from "react"
+import {useDispatch,useSelector} from 'react-redux'
+
+// actions from slices
+// posts
+import {
+    addNewPost,
+    selectIsPosting,
+} from '../postsSlice'
 
 // icons
 // send
@@ -13,6 +21,12 @@ const NewPostForm = () => {
     // local states
     // text
     const [text,setText] = useState('')
+    // states from slices
+    // posts
+    const isPosting = useSelector(selectIsPosting)
+
+    // hooks
+    const dispatch = useDispatch()
 
     // adjust text area height
     const adjustTextArea = e => {
@@ -26,14 +40,14 @@ const NewPostForm = () => {
         e.preventDefault()
         let textarea = document.getElementById('post-text-area')
         if(text.trim()){
-            console.log({text})
+            dispatch(addNewPost({text}))
         }
         textarea.style.height = '24px'
         textarea.focus()
         setText('')
     }
 
-    if(true){
+    if(isPosting){
         return <PostsSpinner />
     }
   return (

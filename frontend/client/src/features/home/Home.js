@@ -1,10 +1,19 @@
-import { useSelector } from "react-redux"
+import {useEffect} from 'react'
+import { useSelector,useDispatch} from "react-redux"
 
 // actions from slices
 // home slice
 import {
     selectMainDir,
 } from './homeSlice'
+// users
+import {
+    getAllUsers,
+} from '../users/usersSlice'
+// posts
+import {
+    getAllPosts,
+} from '../posts/postsSlice'
 
 // pages
 // posts
@@ -17,6 +26,18 @@ const Home = () => {
     // states from slices
     // home
     const mainDir = useSelector(selectMainDir)
+    // hooks
+    const dispatch = useDispatch()
+
+    // effects
+    // get all users
+    useEffect(()=>{
+        dispatch(getAllUsers())
+    })
+    // get all posts
+    useEffect(()=>{
+        dispatch(getAllPosts())
+    })
 
   return (
     <div className="flex-grow flex">
