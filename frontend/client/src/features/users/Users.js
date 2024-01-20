@@ -1,10 +1,17 @@
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
+import { useEffect } from 'react'
 
 // actions from slices
 // users 
 import {
     selectIsLogin,
+    selectIsLoading,
+    selectUser,
 } from './usersSlice'
+// home
+import {
+  setMainDir,
+} from '../home/homeSlice'
 
 // sub-components
 // login
@@ -19,7 +26,21 @@ const Users = () => {
     // states from slices
     // users
     const isLogin = useSelector(selectIsLogin)
-    if(true){
+    const isLoading = useSelector(selectIsLoading)
+    const user = useSelector(selectUser)
+
+    // hooks
+    const dispatch = useDispatch()
+
+    // effects
+    useEffect(()=>{
+      if(user){
+        dispatch(setMainDir('HOME'))
+      }
+    })
+
+    // spinner
+    if(isLoading){
       return <UserSpinner />
     }
   return (

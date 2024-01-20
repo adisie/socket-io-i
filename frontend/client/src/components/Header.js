@@ -9,6 +9,9 @@ import {
 // users
 import {
     setIsLogin,
+    selectUser,
+    logout,
+    resetErrors,
 } from '../features/users/usersSlice'
 
 // icons
@@ -24,6 +27,8 @@ const Header = () => {
     // states from slices
     // home
     const mainDir = useSelector(selectMainDir)
+    // users
+    const user = useSelector(selectUser)
 
     // hooks
     const dispatch = useDispatch()
@@ -72,15 +77,19 @@ const Header = () => {
             </div>
             {/* controllers */}
             {
-                !true 
+                user 
                 ?
                 <div className="flex items-center text-xs font-serif opacity-[.5]">
                     {/* logged in */}
                     <div className="flex items-center">
-                        <span>username</span>
+                        <span>{user?.username}</span>
                         <RiUser4Line className="text-2xl mx-1"/>
                     </div>
-                    <button className="border border-black border-opacity-[.5] rounded-sm px-3 py-[.1rem] transition-all ease-in-out duration-1000 hover:bg-black hover:bg-opacity-[.5] hover:text-white">Logout</button>
+                    <button className="border border-black border-opacity-[.5] rounded-sm px-3 py-[.1rem] transition-all ease-in-out duration-1000 hover:bg-black hover:bg-opacity-[.5] hover:text-white" 
+                        onClick={()=>{
+                            dispatch(logout())
+                        }}
+                    >Logout</button>
                 </div>
                 :
                 <div className="flex items-center text-xs font-serif">
@@ -88,11 +97,13 @@ const Header = () => {
                     <button className="mr-3 border border-black border-opacity-[.5] rounded-sm px-3 py-[.1rem] transition-all ease-in-out duration-1000 hover:bg-black hover:bg-opacity-[.5] hover:text-white" 
                         onClick={()=>{
                             setMainDirHandler('AUTH-LOGIN')
+                            dispatch(resetErrors())
                         }}
                     >Login</button>
                     <button className="border border-black border-opacity-[.5] rounded-sm px-3 py-[.1rem] transition-all ease-in-out duration-1000 hover:bg-black hover:bg-opacity-[.5] hover:text-white" 
                         onClick={()=>{
                             setMainDirHandler('AUTH-SIGNUP')
+                            dispatch(resetErrors())
                         }}
                     >Signup</button>
                 </div>

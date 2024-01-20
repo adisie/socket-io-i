@@ -1,10 +1,13 @@
 import {useState} from 'react'
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 
 // actions from slices
 // users
 import {
   setIsLogin,
+  signup,
+  selectErrors,
+  resetErrors,
 } from '../usersSlice'
 
 // main 
@@ -14,6 +17,9 @@ const Signup = () => {
   const [username,setUsername] = useState('')
   // password
   const [password,setPassword] = useState('')
+  // states from slices
+  // users
+  const errors = useSelector(selectErrors)
 
   // hooks
   const dispatch = useDispatch()
@@ -37,7 +43,7 @@ const Signup = () => {
     }else if(username.trim() && password){
       usernameError.textContent = '' 
       passwordError.textContent = ''
-      console.log({username,password})
+      dispatch(signup({username,password}))
     }
   }
 
@@ -56,7 +62,7 @@ const Signup = () => {
               onChange={e=>setUsername(e.target.value)} 
             />
           </div>
-          <div className='text-center text-[.7rem]' id='signup-username-error'></div>
+          <div className='text-center text-[.7rem]' id='signup-username-error'>{errors?.username}</div>
         </div>
         {/* password */}
         <div className='mb-2'>
@@ -67,7 +73,7 @@ const Signup = () => {
               onChange={e=>setPassword(e.target.value)} 
             />
           </div>
-          <div className='text-center text-[.7rem]' id='signup-password-error'></div>
+          <div className='text-center text-[.7rem]' id='signup-password-error'>{errors?.password}</div>
         </div>
         <div className='rounded-sm bg-gray-900 text-white flex items-center justify-center py-[.25rem] transition-all ease-in-out duration-1000 hover:bg-gray-700 cursor-pointer' 
           onClick={submitHandler}
@@ -77,6 +83,7 @@ const Signup = () => {
         <div className='my-3 cursor-pointer hover:underline text-gray-500' 
           onClick={()=>{
             dispatch(setIsLogin(true))
+            dispatch(resetErrors())
           }}
         >
           hav an account?
