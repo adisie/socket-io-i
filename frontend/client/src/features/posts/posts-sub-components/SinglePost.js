@@ -20,6 +20,7 @@ import { AiOutlineDelete } from "react-icons/ai"
 // get username component
 import GetUsername from '../../users/users-forms/GetUsername'
 
+
 // main
 const SinglePost = ({post}) => {
     // states from slices
@@ -27,16 +28,18 @@ const SinglePost = ({post}) => {
     const user = useSelector(selectUser)
     // hooks
     const dispatch = useDispatch()
+    
 
     // delete post
     const deletePostHandler = _id => {
         dispatch(deletePost(_id))
     }
+
   return (
     <div className="mb-5 border-b border-black border-opacity-[.1] text-xs font-serif opacity-[.85] pb-2">
         <div className="ml-5 mb-1">
             <p className="text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi exercitationem vitae modi rerum magnam ut quia placeat reprehenderit porro consectetur alias delectus quae atque, voluptatum et tempora est qui officiis voluptas! Quam in iusto illo tempora explicabo itaque beatae repudiandae nisi blanditiis fuga deserunt mollitia accusantium veniam molestiae harum consequatur nam, quos corporis ea deleniti provident? Itaque minima eius.
+                {post.text}
             </p>
         </div>
         {/* author controls */}

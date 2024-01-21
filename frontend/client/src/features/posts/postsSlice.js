@@ -1,5 +1,9 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
+import {io} from 'socket.io-client'
+
+// socket
+const socket = io('ws://localhost:5000')
 
 // initial state
 const initialState = {
@@ -41,7 +45,22 @@ const postsSlice = createSlice({
     name: 'posts',
     initialState,
     reducers: {
+        addNePostEvent: (state,action) => {
+            let posts = state.posts 
+            posts.unshift(action.payload)
 
+            let filteredPosts = [] 
+            posts.forEach(post => {
+                if(!(filteredPosts.some(fp=>fp._id === post._id))){
+                    filteredPosts.push(post)
+                }
+            })
+            state.posts = filteredPosts
+        },
+        // delete post
+        deletePostEvent: (state,action) => {
+            state.posts = state.posts.filter(post=>post._id !== action.payload)
+        },
     },
     extraReducers: builder => {
         builder
@@ -65,7 +84,9 @@ const postsSlice = createSlice({
             // fulfilled case 
             .addCase(addNewPost.fulfilled,(state,action)=>{
                 state.isPosting = false 
-                console.log(action.payload)
+                if(action.payload.post){
+                    socket.emit('addNewPost',action.payload.post)
+                }
             })
             // rejected case
             .addCase(addNewPost.rejected,state=>{
@@ -74,7 +95,7 @@ const postsSlice = createSlice({
             // delete post cases
             // fulfilled case
             .addCase(deletePost.fulfilled,(state,action)=>{
-                console.log(action.payload)
+                socket.emit('deletePost',action.payload)
             })
             // rejected case
             .addCase(deletePost.rejected,state=>{
@@ -82,6 +103,12 @@ const postsSlice = createSlice({
             })
     }
 })
+
+// actions
+export const {
+    addNePostEvent,
+    deletePostEvent,
+} = postsSlice.actions 
 
 // selectors
 // posts

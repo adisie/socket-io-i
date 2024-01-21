@@ -31,6 +31,24 @@ mongoose.connect(process.env.MONGO_URI)
         process.exit(-1)
     })
 
+// connection
+const io = socketio(server,{
+    cors: {
+        origin: ['http://localhost:3000',]
+    }
+})
+
+// listening
+io.on('connection',socket=>{
+    // new post evenet
+    socket.on('addNewPost',data=>{
+        socket.broadcast.emit('getNewPost',data)
+    })
+    // delete post
+    socket.on('deletePost',data=>{
+        socket.broadcast.emit('deletePost',data)
+    })
+})
 
 // routes
 // users route
