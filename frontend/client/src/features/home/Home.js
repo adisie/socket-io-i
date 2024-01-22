@@ -1,5 +1,6 @@
 import {useEffect} from 'react'
 import { useSelector,useDispatch} from "react-redux"
+import {io} from 'socket.io-client'
 
 // actions from slices
 // home slice
@@ -9,6 +10,7 @@ import {
 // users
 import {
     getAllUsers,
+    setOnlineUsers,
 } from '../users/usersSlice'
 // posts
 import {
@@ -20,6 +22,9 @@ import {
 import Posts from "../posts/Posts"
 // users
 import Users from "../users/Users"
+
+// socket
+const socket = io('ws://localhost:5000')
 
 // main 
 const Home = () => {
@@ -39,6 +44,15 @@ const Home = () => {
         dispatch(getAllPosts())
     })
 
+    useEffect(()=>{
+        socket.emit('getOnlineUsersOnRefresh')
+    })
+    useEffect(()=>{
+        socket.on('getAllOnlineUsersOnRefresh',data=>{
+            dispatch(setOnlineUsers(data))
+        })
+    })
+    
   return (
     <div className="flex-grow flex">
         <div className="max-w-[820px] mx-auto px-3 flex-grow flex justify-center">

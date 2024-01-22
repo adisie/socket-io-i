@@ -6,6 +6,7 @@ import {io} from 'socket.io-client'
 // users
 import {
   selectUser,
+  setOnlineUsers,
 } from '../users/usersSlice'
 // posts
 import {
@@ -43,6 +44,12 @@ const Posts = () => {
     })
   },[])
 
+  // get all onlie users
+  useEffect(()=>{
+    socket.on('allOnlineUsers',data=>{
+      dispatch(setOnlineUsers(data))
+    })
+  },[])
 
   return (
     <div className='flex-grow flex flex-col'>

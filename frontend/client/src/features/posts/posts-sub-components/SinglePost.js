@@ -20,6 +20,9 @@ import { AiOutlineDelete } from "react-icons/ai"
 // get username component
 import GetUsername from '../../users/users-forms/GetUsername'
 
+// isOnline
+import IsOnline from '../../users/users-forms/IsOnline'
+
 
 // main
 const SinglePost = ({post}) => {
@@ -49,7 +52,8 @@ const SinglePost = ({post}) => {
                 <span>
                     <GetUsername _id = {post.authorId}/>
                 </span>
-                <div className="w-[7px] h-[7px] rounded-full bg-black ml-1"></div>
+                {/* isOnline */}
+                <IsOnline userId={post.authorId}/>
             </div>
             <div className="ml-3 flex items-center">
                 {

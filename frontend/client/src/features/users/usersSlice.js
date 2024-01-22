@@ -1,5 +1,9 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
+import {io} from 'socket.io-client'
+
+// socket
+const socket = io('ws://localhost:5000')
 
 // local user
 let localUser = JSON.parse(localStorage.getItem('user'))
@@ -9,6 +13,7 @@ const initialState = {
     isLogin: true,
     user: localUser ? localUser : null,
     users: [],
+    onlineUsers: [],
     isLoading: false,
     errors: null,
 }
@@ -62,6 +67,15 @@ const usersSlice = createSlice({
         },
         resetErrors: state => {
             state.errors = null
+        },
+        setOnlineUsers: (state,action) => {
+            let users = [] 
+            action.payload.forEach(user=>{
+                if(!(users.some(us=>us.userId === user.userId))){
+                    users.push(user)
+                }
+            })
+            state.onlineUsers = users
         }
     },
     extraReducers: builder => {
@@ -111,6 +125,7 @@ const usersSlice = createSlice({
                     state.user = action.payload.user 
                     state.errors = null 
                     localStorage.setItem('user',JSON.stringify(action.payload.user))
+                    socket.emit('loginUser',{userId: action.payload.user._id,socketId: socket.id})
                 }
                 if(action.payload.errors){
                     state.user = null 
@@ -126,6 +141,7 @@ const usersSlice = createSlice({
             // fulfilled case
             .addCase(logout.fulfilled,(state,action)=>{
                 if(action.payload.message === 'logged out'){
+                    socket.emit('removeUserOnLogout',state.user._id)
                     state.user = null 
                     localStorage.removeItem('user')
                 }
@@ -148,11 +164,14 @@ export const selectUser = state => state.users.user
 export const selectErrors = state => state.users.errors
 // users
 export const selectUsers = state => state.users.users
+// online users
+export const selectOnlineUsers = state => state.users.onlineUsers
 
 // actions
 export const {
     setIsLogin,
     resetErrors,
+    setOnlineUsers,
 } = usersSlice.actions
 
 export default usersSlice.reducer
