@@ -31,6 +31,8 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/users',require('./routes/usersRoutes'))
 // profiles
 app.use('/api/profiles',require('./routes/profilesRoutes'))
+// posts
+app.use('/api/posts',require('./routes/postsRoutes'))
 // public
 app.use('/public',express.static('public'))
 
