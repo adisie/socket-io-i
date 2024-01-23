@@ -4,6 +4,9 @@ import {useState} from 'react'
 // send
 import { LuSendHorizonal } from "react-icons/lu"
 
+// posts spinner
+import PostsSpinner from './PostsSpinner'
+
 // main
 const NewPostForm = () => {
 
@@ -28,6 +31,9 @@ const NewPostForm = () => {
         setText('')
         textarea.style.height = '24px'
         textarea.focus()
+    }
+    if(!true){
+        return <PostsSpinner />
     }
   return (
     <div className="flex items-center pl-12">

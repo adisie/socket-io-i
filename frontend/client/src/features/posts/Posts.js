@@ -6,6 +6,7 @@ import NewPostForm from "./sup-posts-components/NewPostForm"
 
 // main
 const Posts = () => {
+
   return (
     <div className="flex-grow flex flex-col">
       <PostsList />
