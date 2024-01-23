@@ -1,10 +1,12 @@
 import { useState } from "react"
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 
 // actions from slices
 // users
 import {
   setIsLogin,
+  signup,
+  selectErrors,
 } from '../usersSlice'
 
 // main
@@ -14,6 +16,10 @@ const Signup = () => {
   const [username,setUsername] = useState('')
   // password
   const [password,setPassword] = useState('')
+
+  // states from slices
+  // users
+  const errors = useSelector(selectErrors)
 
   // hooks
   const dispatch = useDispatch()
@@ -34,7 +40,7 @@ const Signup = () => {
     }else if(username.trim() && password){
       usernameError.textContent = ''
       passwordError.textContent = ''
-      console.log({username,password})
+      dispatch(signup({username: username.trim(),password}))
     }
   }
 
@@ -53,7 +59,7 @@ const Signup = () => {
               onChange={e=>setUsername(e.target.value)} 
             />
           </div>
-          <div className="flex items-center justify-center text-red-800" id="signup-username-error"></div>
+          <div className="flex items-center justify-center text-red-800" id="signup-username-error">{errors?.username}</div>
         </div>
         {/* password */}
         <div className="mb-[.75rem]">
@@ -64,7 +70,7 @@ const Signup = () => {
               onChange={e=>setPassword(e.target.value)}
             />
           </div>
-          <div className="flex items-center justify-center text-red-800" id="signup-password-error"></div>
+          <div className="flex items-center justify-center text-red-800" id="signup-password-error">{errors?.password}</div>
         </div>
         <div className="flex items-center justify-center cursor-pointer text-gray-300 bg-emerald-700 rounded-sm transition-all ease-in-out duration-300 hover:bg-emerald-800 mb-[.5rem]"
           onClick={submitHandler}

@@ -9,6 +9,9 @@ import {
 // users
 import {
     setIsLogin,
+    selectUser,
+    resetErrors,
+    logout,
 } from '../features/users/usersSlice'
 
 // icons
@@ -25,6 +28,8 @@ const Header = () => {
     // states from slices
     // home
     const mainDir = useSelector(selectMainDir)
+    // users
+    const user = useSelector(selectUser)
 
     // hooks
     const dispatch = useDispatch()
@@ -73,21 +78,24 @@ const Header = () => {
                 }
             </div>
             {
-                !true 
+                user 
                 ?
                 <div className="flex items-center">
                     {/* logged in */}
                     <div className="flex items-center">
-                        <span>username</span>
+                        <span>{user?.username}</span>
                         <img src={defaultUserProfile} alt="" 
-                            className="w-[28px] h-[28px] rounded-full object-cover mx-1 cursor-pointer" 
+                            className="w-[26px] h-[26px] rounded-full object-cover mx-1 cursor-pointer" 
                             onClick={()=>{
                                 setMainDirHandler('PROFILES-PROFILES')
                             }}
                         />
                     </div>
                     <button 
-                        className="border border-gray-300 rounded-sm px-3 py-[.13rem] ml-2 transition-all ease-in-out duration-600 hover:bg-emerald-800 hover:border-gray-400"
+                        className="border border-gray-300 rounded-sm px-3 py-[.13rem] ml-2 transition-all ease-in-out duration-600 hover:bg-emerald-800 hover:border-gray-400" 
+                        onClick={()=>{
+                            dispatch(logout())
+                        }}
                     >Logout</button>
                 </div>
                 :
@@ -97,12 +105,14 @@ const Header = () => {
                         className="border border-gray-300 rounded-sm px-3 py-[.13rem] ml-2 transition-all ease-in-out duration-600 hover:bg-emerald-800 hover:border-gray-400" 
                         onClick={()=>{
                             setMainDirHandler('AUTH-LOGIN')
+                            dispatch(resetErrors())
                         }}
                     >Login</button>
                     <button 
                         className="border border-gray-300 rounded-sm px-3 py-[.13rem] ml-2 transition-all ease-in-out duration-600 hover:bg-emerald-800 hover:border-gray-400" 
                         onClick={()=>{
                             setMainDirHandler('AUTH-SIGNUP')
+                            dispatch(resetErrors())
                         }}
                     >Signup</button>
                 </div>

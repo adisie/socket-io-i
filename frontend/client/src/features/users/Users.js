@@ -1,10 +1,18 @@
-import {useSelector} from 'react-redux'
+import {useEffect} from 'react'
+import {useSelector,useDispatch} from 'react-redux'
 
 // actions from slices
 // users
 import { 
     selectIsLogin,
+    selectIsPending,
+    selectUser,
  } from './usersSlice' 
+
+// home
+import {
+  setMainDir,
+} from '../home/homeSlice'
 
 // sub-pages
 // login
@@ -20,9 +28,24 @@ const Users = () => {
     // states from slices
     // users
     const isLogin = useSelector(selectIsLogin)
-    if(!true){
+    const isPending = useSelector(selectIsPending)
+    const user = useSelector(selectUser)
+
+    // hooks
+    const dispatch = useDispatch()
+
+    // effects
+    // redirect effect
+    useEffect(()=>{
+      if(user){
+        dispatch(setMainDir('HOME'))
+      }
+    })
+
+    if(isPending){
       return <UsersSpinner />
     }
+
   return (
     <div className='flex-grow flex justify-center pt-5'>
         {
