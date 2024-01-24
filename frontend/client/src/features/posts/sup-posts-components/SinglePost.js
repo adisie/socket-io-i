@@ -10,6 +10,11 @@ import {
 import {
     deleteSinglePost,
 } from '../postsSlice'
+// home
+import {
+    setUserId,
+    setMainDir,
+} from '../../home/homeSlice'
 
 // icons
 // delete
@@ -40,7 +45,12 @@ const SinglePost = ({post}) => {
             </p>
         </div>
         <div className="flex items-center my-1">
-            <div className="flex items-center cursor-pointer">
+            <div className="flex items-center cursor-pointer" 
+                onClick={()=>{
+                    dispatch(setUserId(post.authorId))
+                    dispatch(setMainDir('PROFILES'))
+                }}
+            >
                 <GetProfile userId={post.authorId}/>
                 <span className="mr-1">
                     <GetUsername userId={post.authorId}/>

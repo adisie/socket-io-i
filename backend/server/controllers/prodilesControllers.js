@@ -48,6 +48,7 @@ const deleteProfile = async (req,res) => {
         res.status(200).json({
             message: 'profile deleted',
             _id,
+            userId: req.user._id,
         })
     }catch(err){
         res.status(400).json({

@@ -12,6 +12,7 @@ import {
 // profiles
 import {
   getAllUsersProfiles,
+  deleteProfileEvent,
 } from '../profiles/profilesSlice'
 // posts
 import {
@@ -41,7 +42,7 @@ const Posts = () => {
   // effects
   // check-auth
   useEffect(()=>{
-    // dispatch(checkAuth())
+    dispatch(checkAuth())
   })
   // get all users
   useEffect(()=>{
@@ -65,6 +66,13 @@ const Posts = () => {
   useEffect(()=>{
     socket.on('removeDeletedSinglePost',data => {
       dispatch(removeDeletedSinglePost(data))
+    })
+  })
+
+  // delete profile event
+  useEffect(()=>{
+    socket.on('deleteProfielEventFromServer',data=>{
+      dispatch(deleteProfileEvent({profileId: data._id,userId: data.userId}))
     })
   })
 

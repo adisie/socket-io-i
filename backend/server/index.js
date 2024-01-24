@@ -51,6 +51,16 @@ io.on('connection',socket=>{
     socket.on('deleteSinglePost',data=>{
         io.emit('removeDeletedSinglePost',data)
     })
+
+    // new profile from frontend
+    socket.on('newProfileImageAdded',data => {
+        io.emit('newProfileImageFromServer',data)
+    })
+
+    // delete profile event
+    socket.on('deleteProfileEvenet',data=>{
+        io.emit('deleteProfielEventFromServer',data)
+    })
 })
 
 // routes

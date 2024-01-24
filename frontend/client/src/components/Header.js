@@ -11,6 +11,7 @@ import {
 import {
     setMainDir,
     selectMainDir,
+    setUserId,
 } from '../features/home/homeSlice'
 // users
 import {
@@ -58,6 +59,7 @@ const Header = () => {
             dispatch(setMainDir('HOME'))
         }else if(dir === 'PROFILES-PROFILES'){
             dispatch(setMainDir('PROFILES'))
+            dispatch(setUserId(user?._id))
         }else if(dir === 'AUTH-LOGIN'){
             dispatch(setMainDir('AUTH'))
             // set login
@@ -116,6 +118,7 @@ const Header = () => {
                                 className="w-[26px] h-[26px] rounded-full object-cover mx-1 cursor-pointer" 
                                 onClick={()=>{
                                     setMainDirHandler('PROFILES-PROFILES')
+                                    dispatch(setUserId(user._id))
                                 }}
                             />
                         }
