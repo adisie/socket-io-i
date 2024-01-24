@@ -7,10 +7,21 @@ const localUser = JSON.parse(localStorage.getItem('user'))
 const initialState = {
     isLogin: true,
     user: localUser ? localUser : null,
+    users: [],
     errors: null,
     isPending: false,
     isRejected: false,
 }
+
+// get all users
+export const getAllUsers = createAsyncThunk('users/getAllUsers',async () => {
+    try{
+        const response = await axios.get('/api/users/get-all-users')
+        return response.data
+    }catch(err){
+        return err.response.data
+    }
+})
 
 // signup
 export const signup = createAsyncThunk('users/signup',async data => {
@@ -66,6 +77,17 @@ const usersSlice = createSlice({
     extraReducers: builder => {
         builder
             // cases
+            // get all users
+            // fulfilled case
+            .addCase(getAllUsers.fulfilled,(state,action)=>{
+                if(action.payload.users){
+                    state.users = action.payload.users 
+                }
+            })
+            // rejected 
+            .addCase(getAllUsers.rejected,state=>{
+                console.log('Get All Users Rejeted Case')
+            })
             // signup case
             // signup pending
             .addCase(signup.pending,state => {
@@ -107,6 +129,7 @@ const usersSlice = createSlice({
             // login rejected
             .addCase(login.rejected,state=>{
                 console.log('Login Rejected Case')
+                state.isPending = false
             })
             // check-ath case
             // chech-auth fulfilled
@@ -151,5 +174,7 @@ export const selectIsPending = state => state.users.isPending
 export const selectUser = state => state.users.user 
 // errors
 export const selectErrors = state => state.users.errors
+// users
+export const selectUsers = state => state.users.users 
 
 export default usersSlice.reducer

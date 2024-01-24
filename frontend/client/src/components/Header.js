@@ -1,5 +1,11 @@
 import {useSelector,useDispatch} from 'react-redux'
 
+// config
+// base url
+import {
+    BASE_URL,
+} from '../config'
+
 // actions from slices
 // home
 import {
@@ -13,6 +19,10 @@ import {
     resetErrors,
     logout,
 } from '../features/users/usersSlice'
+// profiles
+import {
+    selecteProfiles,
+} from '../features/profiles/profilesSlice'
 
 // icons
 // share
@@ -30,6 +40,14 @@ const Header = () => {
     const mainDir = useSelector(selectMainDir)
     // users
     const user = useSelector(selectUser)
+    // profiles
+    const profiles = useSelector(selecteProfiles)
+
+    // my profiles
+    let myProfiles = profiles.find(profile=>profile?._id === user?._id)
+    
+    // let profile = null 
+    let profile = myProfiles?.profiles.length > 0 ? myProfiles.profiles[myProfiles.profiles.length-1] : null 
 
     // hooks
     const dispatch = useDispatch()
@@ -84,17 +102,29 @@ const Header = () => {
                     {/* logged in */}
                     <div className="flex items-center">
                         <span>{user?.username}</span>
-                        <img src={defaultUserProfile} alt="" 
-                            className="w-[26px] h-[26px] rounded-full object-cover mx-1 cursor-pointer" 
-                            onClick={()=>{
-                                setMainDirHandler('PROFILES-PROFILES')
-                            }}
-                        />
+                        {
+                            profile 
+                            ?
+                            <img src={`${BASE_URL}/${profile.profilePath}`} alt="" 
+                                className="w-[26px] h-[26px] rounded-full object-cover mx-1 cursor-pointer" 
+                                onClick={()=>{
+                                    setMainDirHandler('PROFILES-PROFILES')
+                                }}
+                            />
+                            :
+                            <img src={defaultUserProfile} alt="" 
+                                className="w-[26px] h-[26px] rounded-full object-cover mx-1 cursor-pointer" 
+                                onClick={()=>{
+                                    setMainDirHandler('PROFILES-PROFILES')
+                                }}
+                            />
+                        }
                     </div>
                     <button 
                         className="border border-gray-300 rounded-sm px-3 py-[.13rem] ml-2 transition-all ease-in-out duration-600 hover:bg-emerald-800 hover:border-gray-400" 
                         onClick={()=>{
                             dispatch(logout())
+                            setMainDirHandler('HOME-HOME')
                         }}
                     >Logout</button>
                 </div>

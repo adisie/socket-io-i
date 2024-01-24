@@ -6,7 +6,16 @@ import {useSelector,useDispatch} from 'react-redux'
 import {
   selectUser,
   checkAuth,
+  getAllUsers,
 } from '../users/usersSlice'
+// profiles
+import {
+  getAllUsersProfiles,
+} from '../profiles/profilesSlice'
+// posts
+import {
+  getAllPosts,
+} from './postsSlice'
 
 // sub-pages
 // posts list
@@ -26,7 +35,19 @@ const Posts = () => {
   // effects
   // check-auth
   useEffect(()=>{
-    dispatch(checkAuth())
+    // dispatch(checkAuth())
+  })
+  // get all users
+  useEffect(()=>{
+    dispatch(getAllUsers())
+  })
+  // get users profiles
+  useEffect(()=>{
+    dispatch(getAllUsersProfiles())
+  })
+  // get all posts
+  useEffect(()=>{
+    dispatch(getAllPosts())
   })
 
   return (

@@ -4,11 +4,17 @@ import {configureStore} from '@reduxjs/toolkit'
 // home
 import homeReducer from '../features/home/homeSlice'
 // users
-import usersReducers from '../features/users/usersSlice'
+import usersReducer from '../features/users/usersSlice'
+// profiles
+import profilesReducer from '../features/profiles/profilesSlice'
+// posts
+import postsReducer from '../features/posts/postsSlice'
 
 export const store = configureStore({
     reducer: {
         home: homeReducer,
-        users: usersReducers,
+        users: usersReducer,
+        profiles: profilesReducer,
+        posts: postsReducer,
     }
 })

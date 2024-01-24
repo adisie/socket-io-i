@@ -1,3 +1,12 @@
+import {formatDistanceToNow} from 'date-fns'
+import { useSelector } from 'react-redux'
+
+// actions from slices
+// users
+import {
+    selectUser,
+} from '../../users/usersSlice'
+
 // icons
 // delete
 import { RiDeleteBinLine } from "react-icons/ri"
@@ -11,7 +20,11 @@ import GetProfile from "../../users/users-form/GetProfile"
 import IsOnline from "../../users/users-form/IsOnline"
 
 // main
-const SinglePost = () => {
+const SinglePost = ({post}) => {
+    // states from slices
+    // users
+    const user = useSelector(selectUser)
+
   return (
     <div className="border-b border-emerald-700 border-opacity-[.15] mb-3 text-xs font-serif opacity-[.85]">
         <div className="pl-7"> 
@@ -21,18 +34,18 @@ const SinglePost = () => {
         </div>
         <div className="flex items-center my-1">
             <div className="flex items-center cursor-pointer">
-                <GetProfile />
+                <GetProfile userId={post.authorId}/>
                 <span className="mr-1">
-                    <GetUsername />
+                    <GetUsername userId={post.authorId}/>
                 </span>
                 <IsOnline />
             </div>
             {
-                true && <button className="text-xl mx-1 opacity-[.65]">
+                user && user._id === post.authorId && <button className="text-xl mx-1 opacity-[.65]">
                     <RiDeleteBinLine />
                 </button>
             }
-            <span>date</span>
+            <span className='ml-1'>{formatDistanceToNow(new Date(post.createdAt),{addSuffix: true})}</span>
         </div>
     </div>
   )
