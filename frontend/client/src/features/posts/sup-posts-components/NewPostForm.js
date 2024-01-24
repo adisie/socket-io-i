@@ -1,4 +1,15 @@
 import {useState} from 'react'
+import {
+    useDispatch,
+    useSelector,
+} from 'react-redux'
+
+// actions from slices
+// posts
+import {
+    addNewPost,
+    selectIsPostPending,
+} from '../postsSlice'
 
 // icons
 // send
@@ -14,6 +25,13 @@ const NewPostForm = () => {
     // text 
     const [text,setText] = useState('')
 
+    // states from slices
+    // posts
+    const isPostPending = useSelector(selectIsPostPending)
+
+    // hooks
+    const dispatch = useDispatch()
+
     // adjust text area height
     const adjustTextAreaHeight = e => {
         let textarea = document.getElementById('new-post-text-area')
@@ -26,13 +44,13 @@ const NewPostForm = () => {
     const submitHandler = () => {
         let textarea = document.getElementById('new-post-text-area')
         if(text.trim()){
-            console.log(text)
+            dispatch(addNewPost({text}))
         }
         setText('')
         textarea.style.height = '24px'
         textarea.focus()
     }
-    if(!true){
+    if(isPostPending){
         return <PostsSpinner />
     }
   return (

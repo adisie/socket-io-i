@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import {useSelector,useDispatch} from 'react-redux'
+import {io} from 'socket.io-client'
 
 // actions from slices
 // users
@@ -15,6 +16,8 @@ import {
 // posts
 import {
   getAllPosts,
+  addNewPostEvent,
+  removeDeletedSinglePost,
 } from './postsSlice'
 
 // sub-pages
@@ -22,6 +25,9 @@ import {
 import PostsList from "./sup-posts-components/PostsList"
 // new post form
 import NewPostForm from "./sup-posts-components/NewPostForm"
+
+// socket
+const socket = io('ws://localhost:5000')
 
 // main
 const Posts = () => {
@@ -48,6 +54,18 @@ const Posts = () => {
   // get all posts
   useEffect(()=>{
     dispatch(getAllPosts())
+  })
+  // lieten for new post event
+  useEffect(()=>{
+    socket.on('sendBackNewPost',data=>{
+      dispatch(addNewPostEvent(data))
+    })
+  })
+  // listen for deleted single post evenet
+  useEffect(()=>{
+    socket.on('removeDeletedSinglePost',data => {
+      dispatch(removeDeletedSinglePost(data))
+    })
   })
 
   return (
