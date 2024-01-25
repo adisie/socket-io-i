@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit'
 // initial state
 const initialState = {
     isLogin: true,
+    isUserPending: false,
 }
 
 const usersSlice = createSlice({
@@ -23,5 +24,7 @@ export const {
 // selectors
 // isLogin
 export const selectIsLogin = state => state.users.isLogin 
+// isUserPending
+export const selectIsUserPending = state => state.users.isUserPending
 
 export default usersSlice.reducer

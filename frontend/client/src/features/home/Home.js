@@ -21,8 +21,8 @@ const Home = () => {
   // homeSlice
   const mainDir = useSelector(selectMainDir)
   return (
-    <div className="flex-grow">
-      <div className="max-w-[820px] mx-auto px-3 py-1">
+    <div className="flex-grow flex">
+      <div className="max-w-[820px] mx-auto px-3 py-1 flex-grow flex">
         {
           mainDir === "HOME" 
           ?
