@@ -29,3 +29,5 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/users',require('./routes/usersRoutes'))
 // postsRoutes
 app.use('/api/posts',require('./routes/postsRoutes'))
+// profiles
+app.use('/api/profiles',require('./routes/profilesRoutes'))

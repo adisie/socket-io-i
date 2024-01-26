@@ -44,8 +44,30 @@ const addNewPost = async (req,res) => {
 }
 
 // delete single post
-const deleteSinglePost = (req,res) => {
-    res.status(200).json('delete single post')
+const deleteSinglePost = async (req,res) => {
+    try{
+        const {_id} = req.params 
+        const post = await Post.findById(_id) 
+        if(!post){
+            return res.status(400).json({
+                error: 'post not found error'
+            })
+        }
+        if(post.authorId.toString() !== req.user._id.toString()){
+            return res.status(400).json({
+                error: 'can\'t delete others post'
+            })
+        }
+        await post.deleteOne()
+        res.status(200).json({
+            message: 'post deleted',
+            _id,
+        })
+    }catch(err){
+        res.status(400).json({
+            error: 'delete single post error'
+        })
+    }
 }
 
 module.exports = {
