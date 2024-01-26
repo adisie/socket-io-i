@@ -31,13 +31,13 @@ const LogoutHeader = () => {
     <div className="flex items-center">
         {/* ***** login and signup buttons */}
         <button 
-            className="border border-gray-300 px-3 py-[.1rem] rounded-sm ml-1 transition-all ease-in-out duration-500 hover:bg-white hover:bg-opacity-[.15]" 
+            className="border border-gray-300 px-3 py-[.05rem] rounded-sm ml-1 transition-all ease-in-out duration-500 hover:bg-white hover:bg-opacity-[.15]" 
             onClick={()=>{
               setMainDirHandler("AUTH-LOGIN")
             }}
         >Login</button>
         <button 
-            className="border border-gray-300 px-3 py-[.1rem] rounded-sm ml-3 transition-all ease-in-out duration-500 hover:bg-white hover:bg-opacity-[.15]" 
+            className="border border-gray-300 px-3 py-[.05rem] rounded-sm ml-3 transition-all ease-in-out duration-500 hover:bg-white hover:bg-opacity-[.15]" 
             onClick={()=>{
               setMainDirHandler("AUTH-SIGNUP")
             }}

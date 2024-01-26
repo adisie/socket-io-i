@@ -5,6 +5,10 @@ import {useDispatch} from 'react-redux'
 import {
     setMainDir,
 } from '../../features/home/homeSlice'
+// usersSlice
+import {
+    logout,
+} from '../../features/users/usersSlice'
 
 // images
 // defaults
@@ -14,14 +18,15 @@ import testUserProfile from '../../assets/images/defaults/tewodiros1.jpg'
 
 // ************************
 // main
-const LoginHeader = () => {
+const LoginHeader = ({user}) => {
     // hooks
     const dispatch = useDispatch()
+
   return (
     <div className="flex items-center">
         {/* ****** username and profile ******** */}
         <div className="flex items-center">
-            <span className="text-xs">username</span>
+            <span className="text-xs">{user?.username}</span>
             {
                 true 
                 ?
@@ -42,7 +47,10 @@ const LoginHeader = () => {
         </div>
         {/* ******* logout button ******* */}
         <button 
-            className="border border-gray-300 px-3 py-[.1rem] rounded-sm ml-1 transition-all ease-in-out duration-500 hover:bg-white hover:bg-opacity-[.15]"
+            className="border border-gray-300 px-3 py-[.05rem] rounded-sm ml-1 transition-all ease-in-out duration-500 hover:bg-white hover:bg-opacity-[.15]"
+            onClick={()=>{
+                dispatch(logout())
+            }}
         >Logout</button>
     </div>
   )

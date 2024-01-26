@@ -1,4 +1,4 @@
-
+import {formatDistanceToNow} from 'date-fns'
 
 // GetAuthorProfile
 import GetAuthorProfile from "../../profiles/sup-profiles/GetAuthorProfile"
@@ -10,7 +10,7 @@ import PostControllers from "./PostControllers"
 
 // **********************
 // main
-const SinglePost = () => {
+const SinglePost = ({post}) => {
 
   return (
     <div className="py-1 border-b border-emerald-700 border-opacity-[.15] mb-3 text-xs text-emerald-950 font-serif">
@@ -25,16 +25,16 @@ const SinglePost = () => {
             <div className="flex items-center cursor-pointer">
                 <GetAuthorProfile />
                 <span>
-                    <GetUsername />
+                    <GetUsername userId={post.authorId}/>
                 </span>
             </div>
             {/* ***** IsOnline ****** */}
             <IsOnline />
             {/* **** post controllers */}
-            <PostControllers />
+            <PostControllers userId={post.authorId} postId={post._id}/>
             {/* **** date **** */}
             <div>
-                <span>date</span>
+                <span>{formatDistanceToNow(new Date(post.createdAt),{addSuffix: true})}</span>
             </div>
         </div>
     </div>

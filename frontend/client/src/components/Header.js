@@ -1,6 +1,12 @@
 import {useSelector,useDispatch} from 'react-redux'
 
 // actions from slices
+// users
+import {
+    selectUser,
+} from '../features/users/usersSlice'
+
+// actions from slices
 // homeSlice
 import {
     setMainDir,
@@ -25,6 +31,8 @@ const Header = () => {
     // states from slices
     // homeSlice
     const mainDir = useSelector(selectMainDir)
+    // users
+    const user = useSelector(selectUser)
     // hooks
     const dispatch = useDispatch()
     // comments
@@ -59,9 +67,9 @@ const Header = () => {
             </div>
             {/* ****** header controllers ****** */}
            {
-            true 
+            user 
             ?
-            <LoginHeader />
+            <LoginHeader user={user}/>
             :
             <LogoutHeader />
            }

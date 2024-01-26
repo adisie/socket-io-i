@@ -1,3 +1,10 @@
+import {useSelector} from 'react-redux'
+
+// actions from slices
+// users
+import {
+    selectUser,
+} from '../../users/usersSlice'
 
 // icons
 // like
@@ -11,7 +18,11 @@ import { AiOutlineDelete } from "react-icons/ai"
 
 // ***************************
 // main
-const PostControllers = () => {
+const PostControllers = ({userId,postId}) => {
+
+    // states from slices
+    // users
+    const user = useSelector(selectUser)
     
     // comments
     const gotoPostComments = () => {
@@ -26,12 +37,12 @@ const PostControllers = () => {
     <div className="flex items-center">
         <span className="text-sm mr-1">12</span>
         {/* *** like *** */}
-        <button className="text-2xl mr-1">
+        <button className="text-xl mr-1">
             <PiThumbsUpDuotone />
         </button>
         <span className="text-sm mr-1">33</span>
         {/* *** comments *** */}
-        <button className="text-2xl mr-1" 
+        <button className="text-xl mr-1" 
             onClick={()=>{
                 gotoPostComments()
             }}
@@ -39,13 +50,19 @@ const PostControllers = () => {
             <TiMessage />
         </button>
         {/* *** favorite *** */}
-        <button className="text-2xl mr-1">
+        <button className="text-xl mr-1">
             <MdFavoriteBorder />
         </button>
         {/* *** delete *** */}
-        <button className="text-2xl opacity-[.7] mr-1">
-            <AiOutlineDelete />
-        </button>
+        {
+            user?._id === userId 
+            ?
+            <button className="text-xl opacity-[.7] mr-1">
+                <AiOutlineDelete />
+            </button>
+            :
+            <></>
+        }
     </div>
   )
 }

@@ -1,10 +1,12 @@
 import {useState} from 'react'
-import {useDispatch} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 
 // actions from slices
 // usersSlice
 import {
   setIsLogin,
+  login,
+  selectErrors,
 } from '../usersSlice'
 
 // ***********************
@@ -15,6 +17,10 @@ const LoginForm = () => {
   const [username,setUsername] = useState("")
   // password
   const [password,setPassword] = useState("")
+
+  // states from slices
+  // users
+  const errors = useSelector(selectErrors)
 
   // hooks
   const dispatch = useDispatch()
@@ -35,7 +41,7 @@ const LoginForm = () => {
     }else if(username.trim() && password){
       usernameError.textContent = ""
       passwordError.textContent = ""
-      console.log({username,password})
+      dispatch(login({username,password}))
     }else{
       console.log("Login Validation Error")
     }
@@ -56,7 +62,7 @@ const LoginForm = () => {
               onChange={e=>setUsername(e.target.value)} 
             />
           </div>
-          <div className="flex items-center justify-center text-[.675rem] italic" id="login-username-error"></div>
+          <div className="flex items-center justify-center text-[.675rem] italic" id="login-username-error">{errors?.username}</div>
         </div>
         {/* password */}
         <div className="mb-[.75rem]">
@@ -67,7 +73,7 @@ const LoginForm = () => {
               onChange={e=>setPassword(e.target.value)} 
             />
           </div>
-          <div className="flex items-center justify-center text-[.675rem] italic" id="login-password-error"></div>
+          <div className="flex items-center justify-center text-[.675rem] italic" id="login-password-error">{errors?.password}</div>
         </div>
         {/* button */}
         <div className="mb-[.5rem]">

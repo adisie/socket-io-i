@@ -1,3 +1,11 @@
+import {useSelector} from 'react-redux'
+
+// actions from slices
+// users
+import {
+  selectUser,
+} from '../users/usersSlice'
+
 // icons
 // exit comment
 import { RiPictureInPictureExitFill } from "react-icons/ri"
@@ -16,6 +24,10 @@ import NewCommentForm from "./sub-comments/NewCommentForm"
 // *********************
 // main
 const Comments = () => {
+  // states from slices
+  // users
+  const user = useSelector(selectUser)
+
   // comments
   const exitComments = () => {
     let commentContainer = document.getElementById('post-comments-container')
@@ -55,7 +67,9 @@ const Comments = () => {
       {/* comment list */}
       <CommentsList />
       {/* new comment */}
-      <NewCommentForm />
+      {
+        user && <NewCommentForm />
+      }
     </div>
   )
 }
