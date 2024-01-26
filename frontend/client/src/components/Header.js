@@ -27,6 +27,14 @@ const Header = () => {
     const mainDir = useSelector(selectMainDir)
     // hooks
     const dispatch = useDispatch()
+    // comments
+  const exitComments = () => {
+    let commentContainer = document.getElementById('post-comments-container')
+    if(commentContainer?.classList.contains('flex')){
+        commentContainer?.classList.add('hidden')
+        commentContainer?.classList.remove('flex')
+    }
+}
   return (
     <header className="bg-emerald-700 text-sm text-gray-300 font-serif">
         {/* ******** header ********** */}
@@ -37,6 +45,7 @@ const Header = () => {
                     className="text-2xl" 
                     onClick={()=>{
                         dispatch(setMainDir("HOME"))
+                        exitComments()
                     }}
                 >
                     <FaShareSquare />
@@ -50,7 +59,7 @@ const Header = () => {
             </div>
             {/* ****** header controllers ****** */}
            {
-            !true 
+            true 
             ?
             <LoginHeader />
             :

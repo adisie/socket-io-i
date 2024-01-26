@@ -13,6 +13,8 @@ import Posts from "../posts/Posts"
 import Users from "../users/Users"
 // Profiles
 import Profiles from "../profiles/Profiles"
+// Comments
+import Comments from '../comments/Comments'
 
 // *****************
 // main
@@ -35,6 +37,10 @@ const Home = () => {
           mainDir === "PROFILES"
           ?
           <Profiles />
+          :
+          mainDir === 'COMMENTS' 
+          ?
+          <Comments />
           :
           <></>
         }

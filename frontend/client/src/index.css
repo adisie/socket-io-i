@@ -7,6 +7,10 @@
     display: none;
 }
 
+#comment-text-area::-webkit-scrollbar {
+    display: none;
+}
+
 #post-list-container::-webkit-scrollbar {
     width: 3px;
 }
@@ -20,3 +24,55 @@
     background: rgb(181, 181, 181);
     border-radius: 3px;
 }
+
+#comment-list-container::-webkit-scrollbar {
+    width: 3px;
+}
+
+#comment-list-container::-webkit-scrollbar-track {
+    background: rgb(213, 213, 213);
+    border-radius: 3px;
+}
+
+#comment-list-container::-webkit-scrollbar-thumb {
+    background: rgb(181, 181, 181);
+    border-radius: 3px;
+}
+
+
+
+
+#my-posts-list-con::-webkit-scrollbar {
+    width: 3px;
+}
+
+#my-posts-list-con::-webkit-scrollbar-track {
+    background: rgb(213, 213, 213);
+    border-radius: 3px;
+}
+
+#my-posts-list-con::-webkit-scrollbar-thumb {
+    background: rgb(181, 181, 181);
+    border-radius: 3px;
+}
+
+
+
+
+#my-favorite-posts-list-con::-webkit-scrollbar {
+    width: 3px;
+}
+
+#my-favorite-posts-list-con::-webkit-scrollbar-track {
+    background: rgb(213, 213, 213);
+    border-radius: 3px;
+}
+
+#my-favorite-posts-list-con::-webkit-scrollbar-thumb {
+    background: rgb(181, 181, 181);
+    border-radius: 3px;
+}
+
+
+
+
