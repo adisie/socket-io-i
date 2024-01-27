@@ -13,6 +13,10 @@ import {
   selectUser,
   getAllUsers,
 } from '../users/usersSlice'
+// profiles
+import {
+  getAllUsersProfiles,
+} from '../profiles/profilesSlice'
 
 // sub-posts
 // PostsList
@@ -28,7 +32,6 @@ const Posts = () => {
   // states from slices
   // users
   const user = useSelector(selectUser)
-  
   // hooks
   const dispatch = useDispatch()
 
@@ -40,6 +43,10 @@ const Posts = () => {
   // get all posts effect
   useEffect(()=>{
     dispatch(getAllPosts())
+  },[])
+  // get all users profiles
+  useEffect(()=>{
+    dispatch(getAllUsersProfiles())
   },[])
 
   return (

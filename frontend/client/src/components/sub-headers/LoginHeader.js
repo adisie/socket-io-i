@@ -4,6 +4,7 @@ import {useDispatch} from 'react-redux'
 // homeSlice
 import {
     setMainDir,
+    setUserIdProfiles,
 } from '../../features/home/homeSlice'
 // usersSlice
 import {
@@ -34,6 +35,7 @@ const LoginHeader = ({user}) => {
                     className="w-[24px] h-[24px] rounded-full cursor-pointer mx-1" 
                     onClick={()=>{
                         dispatch(setMainDir("PROFILES"))
+                        dispatch(setUserIdProfiles(user._id))
                     }}
                 />
                 :
@@ -41,6 +43,7 @@ const LoginHeader = ({user}) => {
                     className="w-[24px] h-[24px] rounded-full cursor-pointer mx-1" 
                     onClick={()=>{
                         dispatch(setMainDir("PROFILES"))
+                        dispatch(setUserIdProfiles(user._id))
                     }}
                 />
             }
@@ -50,6 +53,8 @@ const LoginHeader = ({user}) => {
             className="border border-gray-300 px-3 py-[.05rem] rounded-sm ml-1 transition-all ease-in-out duration-500 hover:bg-white hover:bg-opacity-[.15]"
             onClick={()=>{
                 dispatch(logout())
+                dispatch(setUserIdProfiles(null))
+                dispatch(setMainDir('HOME'))
             }}
         >Logout</button>
     </div>

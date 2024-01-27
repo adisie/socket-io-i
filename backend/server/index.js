@@ -36,3 +36,4 @@ app.use('/api/users',require('./routes/usersRoutes'))
 app.use('/api/posts',require('./routes/postsRoutes'))
 // profiles
 app.use('/api/profiles',require('./routes/profilesRoutes'))
+app.use('/public',express.static('./public'))

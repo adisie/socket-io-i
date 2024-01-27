@@ -11,6 +11,7 @@ import {
 import {
     setMainDir,
     selectMainDir,
+    setUserIdProfiles,
 } from '../features/home/homeSlice'
 
 // icons
@@ -53,6 +54,7 @@ const Header = () => {
                     className="text-2xl" 
                     onClick={()=>{
                         dispatch(setMainDir("HOME"))
+                        dispatch(setUserIdProfiles(null))
                         exitComments()
                     }}
                 >
