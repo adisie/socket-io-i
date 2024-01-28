@@ -81,7 +81,7 @@ const logout = (req,res) => {
     try{
         res.cookie('token','',{maxAge: 1})
         res.status(200).json({
-            message: 'logged out'
+            message: 'logged out',
         })
     }catch(err){
         res.status(400).json({

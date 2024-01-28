@@ -1,5 +1,6 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
+import {SOCKET} from '../../config'
 
 // local user
 const localUser = JSON.parse(localStorage.getItem('user'))
@@ -8,6 +9,7 @@ const initialState = {
     isLogin: true,
     user: localUser ? localUser : null,
     users: [],
+    onlineUsers: [],
     errors: null,
     isUserPending: false,
 }
@@ -42,6 +44,15 @@ export const signup = createAsyncThunk('users/signup',async data => {
     }
 })
 
+// check-auth
+export const checkAuth = createAsyncThunk('users/checkAuth',async () => {
+    try{
+        const response = await axios.get('/api/users/check-auth')
+        return response.data
+    }catch(err){
+        return err.response.data
+    }
+})
 // logout
 export const logout = createAsyncThunk('users/logout',async () => {
     try{
@@ -59,6 +70,10 @@ const usersSlice = createSlice({
         setIsLogin: (state,action) => {
             state.isLogin = action.payload
         },
+        setOnlineUsers: (state,action) => {
+            console.log(action.payload)
+            state.onlineUsers = action.payload
+        }
     },
     extraReducers: builder => {
         builder
@@ -88,6 +103,7 @@ const usersSlice = createSlice({
                     state.user = action.payload.user
                     state.errors = null
                     localStorage.setItem('user',JSON.stringify(action.payload.user))
+                    SOCKET.emit('addNewUser',action.payload.user._id)
                 }
                 if(action.payload.errors){
                     state.errors = action.payload.errors 
@@ -122,13 +138,24 @@ const usersSlice = createSlice({
                 console.log('signup rejected case')
             })
             ////////////////////////////////////////
+            // check-auth
+            // fulfilled
+            .addCase(checkAuth.fulfilled,(state,action)=>{
+                if(action.payload?.error === 'unauthorized'){
+                    state.user = null 
+                    localStorage.removeItem('user')
+                }
+            })
+            ////////////////////////////////////////
             // logout case
             // logout fulfilled
             .addCase(logout.fulfilled, (state,action) => {
                 if(action.payload?.message === "logged out"){
+                    let _id = state.user._id
                     state.user = null 
                     state.errors = null 
                     localStorage.removeItem('user')
+                    SOCKET.emit('logoutUser',_id)
                 }
             })
             // logout rejected
@@ -141,11 +168,14 @@ const usersSlice = createSlice({
 // actions
 export const {
     setIsLogin,
+    setOnlineUsers,
 } = usersSlice.actions
 
 // selectors
 // users
 export const selectUsers = state => state.users.users
+// online users
+export const selectOnlineUsers = state => state.users.onlineUsers
 // isLogin
 export const selectIsLogin = state => state.users.isLogin 
 // user 

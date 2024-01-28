@@ -18,6 +18,8 @@ import {
 import {
   selectUser,
   getAllUsers,
+  checkAuth,
+  setOnlineUsers,
 } from '../users/usersSlice'
 // profiles
 import {
@@ -50,9 +52,30 @@ const Posts = () => {
   useEffect(()=>{
     dispatch(getAllUsers())
   },[])
+  // emit user
+  useEffect(()=>{
+    if(user){
+      SOCKET.emit('addUserOnReconnect',user._id)
+    }
+  },[])
+  // get all online users
+  useEffect(()=>{
+    SOCKET.on('allCurrentOnlineUsers',data=>{
+      dispatch(setOnlineUsers(data))
+    })
+  },[])
+  useEffect(()=>{
+    SOCKET.on('getAllOnlineUsers',data=>{
+      dispatch(setOnlineUsers(data))
+    })
+  },[])
   // get all posts effect
   useEffect(()=>{
     dispatch(getAllPosts())
+  },[])
+  // check-auth
+  useEffect(()=>{
+    dispatch(checkAuth())
   },[])
   // add new post event
   useEffect(()=>{

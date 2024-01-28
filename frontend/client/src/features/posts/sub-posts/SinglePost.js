@@ -45,7 +45,7 @@ const SinglePost = ({post}) => {
                 </span>
             </div>
             {/* ***** IsOnline ****** */}
-            <IsOnline />
+            <IsOnline userId={post.authorId}/>
             {/* **** post controllers */}
             <PostControllers userId={post.authorId} postId={post._id}/>
             {/* **** date **** */}

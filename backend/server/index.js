@@ -37,8 +37,48 @@ const io = socketio(server,{
     }
 })
 
+
+let allCurrentOnlineUsers = [] 
+
+// add new online user
+const addNewOnlineUser = data => {
+    let isUserExist = allCurrentOnlineUsers.find(user=>user.userId === data.userId)
+    if(isUserExist){
+        let index = allCurrentOnlineUsers.findIndex(user=>user.userId === data.userId)
+        allCurrentOnlineUsers[index] = data
+    }else{
+        allCurrentOnlineUsers.push(data)
+    }
+}
+
+// remove user on logout ussing userId
+const removeUserOnLogout = userId => {
+    allCurrentOnlineUsers = allCurrentOnlineUsers.filter(user => user.userId !== userId)
+}
+
+// remove user on browser exist
+const removeUserOnDisconnect = socketId => {
+    allCurrentOnlineUsers = allCurrentOnlineUsers.filter(user => user.socketId !== socketId)
+}
+
 // connection
 io.on('connection',socket => {
+    // users
+    // add new user event
+    socket.on('addNewUser',data=>{
+        addNewOnlineUser({userId: data,socketId: socket.id})
+        io.emit('allCurrentOnlineUsers',allCurrentOnlineUsers)
+    })
+    // add user on reconnect
+    socket.on('addUserOnReconnect',data=>{
+        addNewOnlineUser({userId: data,socketId: socket.id})
+        io.emit('allCurrentOnlineUsers',allCurrentOnlineUsers)
+    })
+    // remove user on logout
+    socket.on('logoutUser',data=>{
+        removeUserOnLogout(data)
+        io.emit('allCurrentOnlineUsers',allCurrentOnlineUsers)
+    })
     // posts
     // listen new post event
     socket.on('newPostEvent',data=>{
@@ -58,6 +98,15 @@ io.on('connection',socket => {
     socket.on('deleteProfileEvent',data=>{
         io.emit('reomoveDeletedProfileFromList',data)
     })
+
+    // disconnect
+    socket.on('disconnect',()=>{
+        removeUserOnDisconnect(socket.id)
+        io.emit('allCurrentOnlineUsers',allCurrentOnlineUsers)
+    })
+
+    // emit all online users
+    io.emit('getAllOnlineUsers',allCurrentOnlineUsers)
 })
 
 // routes
