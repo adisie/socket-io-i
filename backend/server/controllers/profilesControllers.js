@@ -49,7 +49,6 @@ const addNewProfile = async (req,res) => {
                 _id: profile._id,
                 userId: profile.userId,
                 profilePath: profile.profilePath,
-                createdAt: profile.createdAt,
             }
         })
     }catch(err){
@@ -84,6 +83,7 @@ const deleteSingleProfile = async (req,res) => {
         res.status(200).json({
             message: 'profile deleted successfuly',
             _id,
+            userId: req.user._id,
         })
     }catch(err){
         res.status(400).json({

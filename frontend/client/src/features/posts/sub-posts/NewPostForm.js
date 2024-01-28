@@ -1,4 +1,12 @@
 import {useState} from 'react'
+import {useDispatch} from 'react-redux'
+
+// actions from slices
+// postsSlice
+import {
+    addNewPost,
+} from '../postsSlice'
+
 
 // icons
 // send 
@@ -10,6 +18,9 @@ const NewPostForm = () => {
     // local states
     // text
     const [text,setText] = useState('')
+
+    // hooks
+    const dispatch = useDispatch()
 
     // adjust textarea height
     const adjustTextAreaHeight = e => {
@@ -23,7 +34,7 @@ const NewPostForm = () => {
     const submitHandler = () => {
         let textarea = document.getElementById('post-text-area') 
         if(text.trim()){
-            console.log({text})
+            dispatch(addNewPost({text}))
         }
         setText('')
         textarea.style.height = '18px'

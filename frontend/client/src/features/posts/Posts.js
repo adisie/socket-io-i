@@ -1,10 +1,16 @@
 import { useEffect } from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 
+
+// socket
+import {SOCKET} from '../../config'
+
 // actions from slices
 // postsSlice
 import {
   getAllPosts,
+  addNewPostEvent,
+  deleteSinglePostEvent,
 } from './postsSlice'
 
 // actions from slices
@@ -16,6 +22,8 @@ import {
 // profiles
 import {
   getAllUsersProfiles,
+  addProfileToListEvent,
+  removeDeletedProfileFromListEvent,
 } from '../profiles/profilesSlice'
 
 // sub-posts
@@ -25,6 +33,8 @@ import PostsList from "./sub-posts/PostsList"
 import NewPostForm from "./sub-posts/NewPostForm"
 // comments
 import Comments from '../comments/Comments'
+
+
 
 // ******************
 // main
@@ -44,6 +54,32 @@ const Posts = () => {
   useEffect(()=>{
     dispatch(getAllPosts())
   },[])
+  // add new post event
+  useEffect(()=>{
+    SOCKET.on('addNewPostEvent',data=>{
+      dispatch(addNewPostEvent(data))
+    })
+  },[])
+  // delete single post
+  useEffect(()=>{
+    SOCKET.on('removeDeletedPostEvent',data=>{
+      dispatch(deleteSinglePostEvent(data))
+    })
+  },[])
+  //add profile to list event
+  useEffect(()=>{
+    SOCKET.on('addProfileToListEvent',data=>{
+      dispatch(addProfileToListEvent(data))
+    })
+  },[])
+
+  // remove profile
+  useEffect(()=>{
+    SOCKET.on('reomoveDeletedProfileFromList',data=>{
+      dispatch(removeDeletedProfileFromListEvent(data))
+    })
+  },[])
+
   // get all users profiles
   useEffect(()=>{
     dispatch(getAllUsersProfiles())

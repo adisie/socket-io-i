@@ -11,11 +11,8 @@ import {
     logout,
 } from '../../features/users/usersSlice'
 
-// images
-// defaults
-import defaultUserProfile from '../../assets/images/defaults/male-profile-3.jpg'
-// test
-import testUserProfile from '../../assets/images/defaults/tewodiros1.jpg'
+// get author profile
+import GetAuthorProfile from '../../features/profiles/sup-profiles/GetAuthorProfile'
 
 // ************************
 // main
@@ -26,27 +23,14 @@ const LoginHeader = ({user}) => {
   return (
     <div className="flex items-center">
         {/* ****** username and profile ******** */}
-        <div className="flex items-center">
-            <span className="text-xs">{user?.username}</span>
-            {
-                true 
-                ?
-                <img src={testUserProfile} alt="user profile" 
-                    className="w-[24px] h-[24px] rounded-full cursor-pointer mx-1" 
-                    onClick={()=>{
-                        dispatch(setMainDir("PROFILES"))
-                        dispatch(setUserIdProfiles(user._id))
-                    }}
-                />
-                :
-                <img src={defaultUserProfile} alt="user profile" 
-                    className="w-[24px] h-[24px] rounded-full cursor-pointer mx-1" 
-                    onClick={()=>{
-                        dispatch(setMainDir("PROFILES"))
-                        dispatch(setUserIdProfiles(user._id))
-                    }}
-                />
-            }
+        <div className="flex items-center cursor-pointer" 
+            onClick={()=>{
+                dispatch(setMainDir("PROFILES"))
+                dispatch(setUserIdProfiles(user._id))
+            }}
+        >
+            <span className="text-xs mr-1">{user?.username}</span>
+            <GetAuthorProfile userId={user._id}/>
         </div>
         {/* ******* logout button ******* */}
         <button 

@@ -1,10 +1,14 @@
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 
 // actions from slices
 // users
 import {
     selectUser,
 } from '../../users/usersSlice'
+// posts
+import {
+    deleteSinglePost,
+} from '../postsSlice'
 
 // icons
 // like
@@ -23,6 +27,9 @@ const PostControllers = ({userId,postId}) => {
     // states from slices
     // users
     const user = useSelector(selectUser)
+
+    // hooks
+    const dispatch = useDispatch()
     
     // comments
     const gotoPostComments = () => {
@@ -57,7 +64,11 @@ const PostControllers = ({userId,postId}) => {
         {
             user?._id === userId 
             ?
-            <button className="text-xl opacity-[.7] mr-1">
+            <button className="text-xl opacity-[.7] mr-1" 
+                onClick={()=>{
+                    dispatch(deleteSinglePost(postId))
+                }}
+            >
                 <AiOutlineDelete />
             </button>
             :

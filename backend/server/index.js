@@ -4,6 +4,7 @@ const http = require('http')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const socketio = require('socket.io')
 
 const app = express()
 // settings
@@ -27,6 +28,36 @@ mongoose.connect(process.env.MONGO_URI)
 .catch(err=>{
     console.log('DB CONNECTION FAILED')
     process.exit(-1)
+})
+
+// io
+const io = socketio(server,{
+    cors: {
+        origin: ['http://localhost:3000',]
+    }
+})
+
+// connection
+io.on('connection',socket => {
+    // posts
+    // listen new post event
+    socket.on('newPostEvent',data=>{
+        io.emit('addNewPostEvent',data)
+    })
+    // listen for delete single post event
+    socket.on('deleteSinglePostEent',data=>{
+        io.emit('removeDeletedPostEvent',data)
+    })
+
+    // profiles
+    // listen for addNewUserProfileEvent 
+    socket.on('addNewUserProfileEvent',data=>{
+        io.emit('addProfileToListEvent',data)
+    })
+    // listen for delete profile event
+    socket.on('deleteProfileEvent',data=>{
+        io.emit('reomoveDeletedProfileFromList',data)
+    })
 })
 
 // routes
